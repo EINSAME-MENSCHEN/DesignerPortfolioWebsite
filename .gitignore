@@ -1,0 +1,15 @@
+node_modules/
+dist/
+$dest/
+.DS_Store
+*.log
+
+src/imports/*.png
+!src/imports/image-7.png
+
+.env
+.env.*
+!.env.example
+
+.vercel/
+.netlify/

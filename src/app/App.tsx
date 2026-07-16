@@ -387,7 +387,8 @@ const works: Work[] = [
   },
 ];
 
-const previewWorks = works.slice(0, 3);
+const rqthemePreviewWork = works.find((work) => work.title.includes("RQTHEME"));
+const previewWorks = [works[0], works[1], works[2], rqthemePreviewWork].filter(Boolean) as Work[];
 
 const strengths = [
   "8 年 UX/UI 全链路设计实战经验，4 年专业设计团队管理经验",
@@ -798,7 +799,7 @@ export default function App() {
                     查看全部作品 <ArrowRight size={15} />
                   </button>
                 </div>
-                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {previewWorks.map((work) => (
                     <WorkCard key={work.title} work={work} onClick={() => openDetail(work)} />
                   ))}

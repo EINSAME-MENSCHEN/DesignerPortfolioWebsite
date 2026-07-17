@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, ArrowLeft, Check, Copy, ExternalLink, FileText, GraduationCap, Mail, Moon, Phone, Sun } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Copy, ExternalLink, FileText, Mail, Menu, Moon, Phone, Sun, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import resumePdf from "../imports/___-2026__.pdf";
 import laihuiCover from "../imports/optimized/image-2.jpg";
@@ -230,7 +230,7 @@ const works: Work[] = [
     gallery: qingjuGallery,
   },
   {
-    title: "RQams 资产管理",
+    title: "RQAMS 资产管理",
     category: "金融资管 / B 端系统",
     year: "2019–2022",
     description: "面向资产管理业务的企业级系统体验设计，覆盖多角色权限、复杂数据表格、资产配置、组合管理与业务流程协同等高密度场景。",
@@ -389,21 +389,23 @@ const works: Work[] = [
 
 const rqthemePreviewWork = works.find((work) => work.title.includes("RQTHEME"));
 const previewWorks = [works[0], works[1], works[2], rqthemePreviewWork].filter(Boolean) as Work[];
+const comingSoonWorkPrefixes = ["RQQUANT", "RQFUND", "RQbond"];
+const isComingSoonWork = (work: Work) => comingSoonWorkPrefixes.some((prefix) => work.title.startsWith(prefix));
+const displayWorks = [...works].sort((a, b) => Number(isComingSoonWork(a)) - Number(isComingSoonWork(b)));
 
 const strengths = [
-  "8 年 UX/UI 全链路设计实战经验，4 年专业设计团队管理经验",
-  "长期深耕 B 端企业服务、金融资管、销售 CRM、互联网社区等产品领域",
-  "具备 0-1 产品体验搭建、复杂业务流程设计与 Design System 建设经验",
-  "熟悉企业级产品信息架构、多角色权限逻辑与高密度数据场景设计",
-  "关注 AI 对话、智能推荐与场景化智能功能在实际业务中的落地",
+  "8 年 UX/UI 全链路经验，4 年专业设计团队管理经验",
+  "主导金融资管、CRM、社区产品等复杂业务体验设计",
+  "搭建 Web / App 双端 Design System，提升设计与研发协同效率",
+  "擅长从业务流程、数据密度和角色权限中提炼清晰体验方案",
 ];
 
 const abilities = [
-  ["AI 智能体验设计", "熟悉 AI 对话助手、智能推荐等能力设计，推动智能能力与业务流程深度融合。"],
-  ["复杂业务体验设计", "擅长多角色、多流程、高密度数据场景，深耕 CRM、金融资管、大数据后台等企业级产品。"],
-  ["Design System 搭建", "从视觉规范、交互标准、组件资产到双端统一与研发协同，具备完整体系搭建与落地经验。"],
-  ["增长与商业化设计", "通过数据分析与用户研究优化转化路径，提升拉新、留存、活跃与付费等核心指标。"],
-  ["团队管理与协同", "4 年团队管理经验，擅长团队搭建、绩效评级、评审规范、能力培养与跨部门协同。"],
+  ["复杂业务体验设计", "多角色权限 / 高密度数据 / 流程重构"],
+  ["Design System 搭建", "设计规范 / 组件资产 / 双端统一 / 研发协同"],
+  ["AI 产品体验设计", "AI 助手 / 智能推荐 / 场景化能力落地"],
+  ["增长与商业化设计", "转化路径 / 用户留存 / 活动玩法 / 数据复盘"],
+  ["团队管理与协同", "团队搭建 / 设计评审 / 能力培养 / 跨部门推进"],
 ];
 
 const experience: Job[] = [
@@ -414,11 +416,40 @@ const experience: Job[] = [
   { time: "2015.11 — 2016.03", company: "深圳市冰冰纸业有限公司", role: "视觉设计师", summary: "负责企业品牌宣传、网页页面与市场推广相关视觉设计工作。", results: [] },
 ];
 
+const typeScale = {
+  brand: "text-lg font-semibold leading-none tracking-wide sm:text-xl",
+  nav: "text-sm font-medium leading-none",
+  eyebrow: "font-mono text-[11px] font-medium uppercase leading-none tracking-[0.18em] text-slate-500 dark:text-slate-400",
+  eyebrowAccent: "font-mono text-[11px] font-medium uppercase leading-none tracking-[0.18em] text-[#5856d6]",
+  pageTitle: "text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-6xl",
+  sectionTitle: "text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl",
+  heroName: "text-4xl font-semibold leading-[0.95] sm:text-5xl",
+  cardTitle: "text-xl font-semibold leading-tight md:text-2xl",
+  itemTitle: "text-xl font-semibold leading-tight md:text-2xl",
+  bodyLarge: "text-base font-normal leading-7 text-slate-500 dark:text-slate-400 md:text-lg md:leading-8",
+  body: "text-sm font-normal leading-6 text-slate-500 dark:text-slate-400",
+  bodyReadable: "text-base font-normal leading-7 text-slate-600 dark:text-slate-300",
+  bodyReadableMuted: "text-base font-normal leading-7 text-slate-500 dark:text-slate-400",
+  meta: "text-sm font-medium leading-none",
+  chip: "text-xs font-medium leading-none",
+  metric: "text-3xl font-semibold leading-none text-slate-950 dark:text-slate-50 md:text-4xl",
+  metricCompact: "text-2xl font-semibold leading-none text-slate-950 dark:text-slate-50 md:text-3xl",
+  label: "text-xs font-medium leading-none text-slate-500 dark:text-slate-400",
+};
+
 function WorkCard({ work, onClick }: { work: Work; onClick: () => void }) {
+  const isComingSoon = isComingSoonWork(work);
+
   return (
     <button
-      onClick={onClick}
-      className="group relative overflow-hidden rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl text-left transition duration-300 hover:-translate-y-1 hover:border-white/80 dark:border-white/25 hover:shadow-[0_24px_70px_rgba(31,41,55,.14)]"
+      onClick={isComingSoon ? undefined : onClick}
+      title={isComingSoon ? "即将上线" : undefined}
+      aria-disabled={isComingSoon}
+      className={`group relative overflow-hidden rounded-[2rem] border border-white/55 bg-white/55 text-left backdrop-blur-2xl transition duration-300 dark:border-white/10 dark:bg-slate-950/55 ${
+        isComingSoon
+          ? "cursor-not-allowed grayscale opacity-55"
+          : "hover:-translate-y-1 hover:border-white/80 hover:shadow-[0_24px_70px_rgba(31,41,55,.14)] dark:hover:border-white/25"
+      }`}
     >
       <div className="relative aspect-[1.6/1] overflow-hidden border-b border-white/55 dark:border-white/10 bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_50%_0%,rgba(120,119,255,.14),transparent_55%)]">
         <img
@@ -430,11 +461,18 @@ function WorkCard({ work, onClick }: { work: Work; onClick: () => void }) {
         />
       </div>
       <div className="p-5">
-        <p className="font-mono text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{work.category}</p>
+        <p className={typeScale.eyebrow}>{work.category}</p>
         <div className="mt-3 flex items-center justify-between gap-4">
-          <h3 className="text-2xl leading-tight md:text-3xl">{work.title}</h3>
-          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-slate-950 text-white dark:bg-white dark:text-slate-950 shadow-[0_12px_28px_rgba(15,23,42,.16)] transition group-hover:translate-x-1" aria-label="查看作品详情">
-            <ArrowRight size={17} />
+          <h3 className={typeScale.cardTitle}>{work.title}</h3>
+          <span
+            className={`inline-flex h-10 shrink-0 items-center justify-center rounded-full shadow-[0_12px_28px_rgba(15,23,42,.16)] transition ${
+              isComingSoon
+                ? `w-auto bg-white/65 px-3 text-slate-500 dark:bg-white/10 dark:text-slate-300 ${typeScale.chip}`
+                : "w-10 bg-slate-950 text-white group-hover:translate-x-1 dark:bg-white dark:text-slate-950"
+            }`}
+            aria-label={isComingSoon ? "即将上线" : "查看作品详情"}
+          >
+            {isComingSoon ? "即将上线" : <ArrowRight size={17} />}
           </span>
         </div>
       </div>
@@ -454,70 +492,45 @@ function WorkDetail({ work, onBack }: { work: Work; onBack: () => void }) {
       {/* Back button */}
       <button
         onClick={onBack}
-        className="group inline-flex items-center gap-2 rounded-full border border-white/60 dark:border-white/15 bg-white/45 dark:bg-slate-950/45 px-4 py-2 text-sm text-slate-500 dark:text-slate-400 backdrop-blur-xl transition hover:text-slate-950 dark:hover:text-slate-50"
+        className={`group inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/45 px-4 py-2 text-slate-500 backdrop-blur-xl transition hover:text-slate-950 dark:border-white/15 dark:bg-slate-950/45 dark:text-slate-400 dark:hover:text-slate-50 ${typeScale.meta}`}
       >
         <ArrowLeft size={15} className="transition group-hover:-translate-x-0.5" />
         返回作品列表
       </button>
 
-      {/* Hero */}
-      <div className="relative overflow-hidden rounded-[2.5rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl shadow-[0_30px_90px_rgba(31,41,55,.14)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(120,119,255,.18),transparent_50%)]" />
-        <img
-          src={work.image}
-          alt={work.title}
-          loading="eager"
-          decoding="async"
-          className="relative w-full object-contain"
-          style={{ maxHeight: "520px" }}
-        />
-      </div>
-
       {/* Title & meta */}
       <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#5856d6]">{work.category}</p>
-          <h1 className="mt-3 text-4xl leading-none sm:text-5xl md:text-6xl">{work.title}</h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-500 dark:text-slate-400 md:text-lg">{work.description}</p>
+          <p className={typeScale.eyebrowAccent}>{work.category}</p>
+          <h1 className={`mt-3 ${typeScale.pageTitle}`}>{work.title}</h1>
+          <p className={`mt-4 max-w-2xl ${typeScale.bodyLarge}`}>{work.description}</p>
         </div>
         <div className="flex flex-wrap gap-3 self-start lg:flex-col lg:items-end">
-          <div className="rounded-full border border-white/60 dark:border-white/15 bg-white/45 dark:bg-slate-950/45 px-4 py-2 text-sm backdrop-blur-xl">
+          <div className={`rounded-full border border-white/60 bg-white/45 px-4 py-2 backdrop-blur-xl dark:border-white/15 dark:bg-slate-950/45 ${typeScale.meta}`}>
             <span className="text-slate-500 dark:text-slate-400">时间：</span><span>{work.year}</span>
           </div>
           {work.role && (
-            <div className="rounded-full border border-white/60 dark:border-white/15 bg-white/45 dark:bg-slate-950/45 px-4 py-2 text-sm backdrop-blur-xl">
+            <div className={`rounded-full border border-white/60 bg-white/45 px-4 py-2 backdrop-blur-xl dark:border-white/15 dark:bg-slate-950/45 ${typeScale.meta}`}>
               <span className="text-slate-500 dark:text-slate-400">角色：</span><span>{work.role}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Metrics */}
-      {work.metrics && work.metrics.length > 0 && (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {work.metrics.map((m) => (
-            <div key={m.label} className="rounded-[1.5rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl p-5 text-center">
-              <p className="text-3xl font-semibold leading-none text-slate-950 dark:text-slate-50 md:text-4xl">{m.value}</p>
-              <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{m.label}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Challenge & Process */}
       <div className="grid gap-6 lg:grid-cols-2">
         {work.challenge && (
           <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl p-6 md:p-8">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">项目背景</p>
-            <p className="mt-4 leading-7 text-slate-700 dark:text-slate-300">{work.challenge}</p>
+            <p className={typeScale.eyebrow}>项目背景</p>
+            <p className={`mt-4 ${typeScale.bodyReadable}`}>{work.challenge}</p>
           </div>
         )}
         {work.process && work.process.length > 0 && (
           <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl p-6 md:p-8">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">设计过程</p>
+            <p className={typeScale.eyebrow}>设计过程</p>
             <ol className="mt-4 space-y-4">
               {work.process.map((step, i) => (
-                <li key={i} className="flex gap-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                <li key={i} className={`flex gap-3 ${typeScale.body}`}>
                   <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-slate-950 text-[10px] font-semibold text-white">
                     {i + 1}
                   </span>
@@ -528,6 +541,18 @@ function WorkDetail({ work, onBack }: { work: Work; onBack: () => void }) {
           </div>
         )}
       </div>
+
+      {/* Metrics */}
+      {work.metrics && work.metrics.length > 0 && (
+        <div className="grid grid-cols-4 gap-2 sm:gap-3">
+          {work.metrics.map((m) => (
+            <div key={m.label} className="rounded-[0.9rem] border border-white/45 bg-white/40 px-2 py-3 text-center backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/40 sm:px-4">
+              <p className={typeScale.metricCompact}>{m.value}</p>
+              <p className={`mt-1.5 ${typeScale.label}`}>{m.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {work.gallery && work.gallery.length > 0 && (
         <section
@@ -560,7 +585,7 @@ function WorkDetail({ work, onBack }: { work: Work; onBack: () => void }) {
       {work.tags && work.tags.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {work.tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-white/60 dark:border-white/15 bg-white/45 dark:bg-slate-950/45 px-4 py-1.5 text-xs text-slate-600 dark:text-slate-300 backdrop-blur-xl">
+            <span key={tag} className={`rounded-full border border-white/60 bg-white/45 px-4 py-1.5 text-slate-600 backdrop-blur-xl dark:border-white/15 dark:bg-slate-950/45 dark:text-slate-300 ${typeScale.chip}`}>
               {tag}
             </span>
           ))}
@@ -571,7 +596,7 @@ function WorkDetail({ work, onBack }: { work: Work; onBack: () => void }) {
       <div className="flex flex-col gap-4 border-t border-white/40 dark:border-white/10 pt-8 sm:flex-row sm:justify-between">
         <button
           onClick={onBack}
-          className="group inline-flex items-center gap-2 rounded-full border border-white/60 dark:border-white/15 bg-white/45 dark:bg-slate-950/45 px-5 py-3 text-sm text-slate-500 dark:text-slate-400 backdrop-blur-xl transition hover:text-slate-950 dark:hover:text-slate-50"
+          className={`group inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/45 px-5 py-3 text-slate-500 backdrop-blur-xl transition hover:text-slate-950 dark:border-white/15 dark:bg-slate-950/45 dark:text-slate-400 dark:hover:text-slate-50 ${typeScale.meta}`}
         >
           <ArrowLeft size={15} className="transition group-hover:-translate-x-0.5" />
           返回作品列表
@@ -583,15 +608,14 @@ function WorkDetail({ work, onBack }: { work: Work; onBack: () => void }) {
 
 function ResumeIntro({ copiedField, onCopy }: { copiedField: string | null; onCopy: (field: string, value: string) => void }) {
   return (
-    <div className="w-full rounded-[2rem] border border-white/55 bg-white/55 p-6 backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/55 md:p-8 lg:p-10">
+    <div className="w-full px-1 py-6 md:px-0 md:py-8 lg:py-10">
       <div className="mt-[30px] grid gap-6 md:grid-cols-[minmax(0,1fr)_clamp(11rem,24vw,18.75rem)] md:items-start lg:gap-10">
         <div className="min-w-0 flex-1">
-          <h2 className="text-4xl leading-none sm:text-5xl">余章磊</h2>
-          <p className="mt-3 text-xl text-slate-950 dark:text-slate-50">高级体验交互设计师</p>
-          <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">双端体验设计｜Design System｜团队管理｜AI 产品体验</p>
-          <p className="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-300">8 年 UX/UI 全链路设计经验与 4 年设计团队管理经验，长期深耕 B 端企业服务、金融资管、销售 CRM、互联网社区与 AI 产品体验。 用系统化体验设计，连接复杂业务、AI 能力与商业增长。</p>
-          <div className="mt-4 flex flex-wrap gap-2 text-sm">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/45 px-3 py-1.5 backdrop-blur-xl dark:border-white/15 dark:bg-slate-950/45"><GraduationCap size={15} className="shrink-0 text-slate-500 dark:text-slate-400" aria-hidden="true" /><span>武汉纺织大学 · 艺术设计 · 本科</span></div>
+          <h2 className={typeScale.heroName}>余章磊</h2>
+          <p className="mt-3 text-xl font-medium leading-tight text-slate-950 dark:text-slate-50">高级体验交互设计师</p>
+          <p className={`mt-2 ${typeScale.body}`}>双端体验设计｜Design System｜团队管理｜AI 产品体验</p>
+          <p className={`mt-4 ${typeScale.bodyReadable}`}>8 年 UX/UI 全链路设计经验，长期深耕复杂B端、金融科技与多端产品体验，主导及参与多个 B/C 端产品从 0 到 1，推动 14 个 B 端项目落地。具备 4 年团队管理及设计体系建设经验，能够运用生成式 AI 完成需求分析、方案探索、原型验证与前端实现，推动产品从业务需求到高质量落地。</p>
+          <div className={`mt-4 flex flex-wrap gap-2 ${typeScale.meta}`}>
             <div className="inline-flex items-center gap-1 rounded-full border border-white/60 bg-white/45 py-1.5 pl-3 pr-1.5 backdrop-blur-xl dark:border-white/15 dark:bg-slate-950/45">
               <Phone size={15} className="shrink-0 text-slate-500 dark:text-slate-400" aria-hidden="true" /><span>15337231314</span>
               <button type="button" onClick={() => onCopy("微信", "15337231314")} className="ml-1 inline-flex size-6 items-center justify-center rounded-full text-slate-500 transition hover:bg-white/70 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-50" aria-label="复制微信号">
@@ -619,6 +643,7 @@ export default function App() {
   const [selectedWork, setSelectedWork] = useState<Work>(works[0]);
   const [cursorHover, setCursorHover] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -667,6 +692,7 @@ export default function App() {
   }, []);
 
   function openPage(next: Page) {
+    setMobileMenuOpen(false);
     setPage(next);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -710,7 +736,6 @@ export default function App() {
       className={`min-h-screen cursor-none overflow-hidden bg-background text-foreground selection:bg-primary selection:text-primary-foreground ${isDark ? "dark" : ""}`}
     >
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_18%_8%,rgba(120,119,255,.32),transparent_30%),radial-gradient(circle_at_86%_18%,rgba(0,199,190,.22),transparent_28%),radial-gradient(circle_at_50%_94%,rgba(255,149,0,.14),transparent_34%),linear-gradient(180deg,#f7f8ff_0%,#eef4ff_45%,#f8fbff_100%)] dark:bg-[radial-gradient(circle_at_18%_8%,rgba(120,119,255,.34),transparent_30%),radial-gradient(circle_at_86%_18%,rgba(0,199,190,.16),transparent_28%),radial-gradient(circle_at_50%_94%,rgba(175,82,222,.16),transparent_34%),linear-gradient(180deg,#090812_0%,#101022_50%,#0b0b16_100%)]" />
-      <div className="pointer-events-none fixed inset-0 opacity-60 dark:opacity-30 [background-image:linear-gradient(rgba(255,255,255,.55)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.45)_1px,transparent_1px)] dark:[background-image:linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.10)_1px,transparent_1px)] [background-size:72px_72px]" />
       <div
         ref={glowRef}
         className="pointer-events-none fixed left-0 top-0 z-20 h-[160px] w-[160px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,.14),rgba(88,86,214,.10)_38%,rgba(0,199,190,.07)_58%,transparent_76%)] blur-2xl will-change-transform dark:bg-[radial-gradient(circle,rgba(255,255,255,.12),rgba(168,163,255,.11)_38%,rgba(94,234,212,.07)_58%,transparent_76%)]"
@@ -734,26 +759,26 @@ export default function App() {
       />
 
       {copiedField && (
-        <div role="status" className="fixed bottom-5 left-1/2 z-[60] -translate-x-1/2 rounded-full border border-white/60 bg-slate-950 px-4 py-2 text-sm text-white shadow-[0_18px_45px_rgba(15,23,42,.22)] backdrop-blur-xl dark:border-white/15 dark:bg-white dark:text-slate-950">
+        <div role="status" className={`fixed bottom-5 left-1/2 z-[60] -translate-x-1/2 rounded-full border border-white/60 bg-slate-950 px-4 py-2 text-white shadow-[0_18px_45px_rgba(15,23,42,.22)] backdrop-blur-xl dark:border-white/15 dark:bg-white dark:text-slate-950 ${typeScale.meta}`}>
           {copiedField}已复制
         </div>
       )}
 
       <header className="fixed inset-x-0 top-0 z-50 border-b border-white/55 dark:border-white/10 bg-white/60 dark:bg-slate-950/60 shadow-[0_12px_40px_rgba(31,41,55,.08)] backdrop-blur-2xl">
-        <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between md:px-8">
+        <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-8">
           <button onClick={() => openPage("home")} className="flex items-center gap-3 text-left">
             <span className="flex h-10 w-auto items-center justify-center">
               <img src={logoImage} alt="YUZHANGLEI DESIGN logo" loading="eager" decoding="async" className="h-9 w-auto object-contain" />
             </span>
-            <span className="block text-xl font-semibold leading-none tracking-wide">YUZHANGLEI DESIGN</span>
+            <span className={`block ${typeScale.brand}`}>YUZHANGLEI DESIGN</span>
           </button>
-          <div className="flex w-full items-center justify-end gap-4 sm:w-auto">
-            <nav className="flex flex-1 items-center justify-between gap-1 rounded-full border border-white/55 bg-white/45 p-1 shadow-[0_18px_50px_rgba(31,41,55,.10)] sm:flex-none dark:border-white/10 dark:bg-slate-950/45">
+          <div className="hidden items-center justify-end gap-4 md:flex">
+            <nav className="flex items-center justify-between gap-1 rounded-full border border-white/55 bg-white/45 p-1 shadow-[0_18px_50px_rgba(31,41,55,.10)] dark:border-white/10 dark:bg-slate-950/45">
               {nav.map(([key, label]) => (
                 <button
                   key={key}
                   onClick={() => openPage(key)}
-                  className={`flex-1 rounded-full px-3 py-2 text-sm transition sm:flex-none md:px-5 ${
+                  className={`rounded-full px-5 py-2 transition ${typeScale.nav} ${
                     page === key || (page === "detail" && key === "works")
                       ? "bg-white text-slate-950 shadow-[0_12px_40px_rgba(0,0,0,.12)] dark:bg-white dark:text-slate-950"
                       : "text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-slate-50"
@@ -772,7 +797,57 @@ export default function App() {
               {isDark ? <Sun size={17} /> : <Moon size={17} />}
             </button>
           </div>
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((value) => !value)}
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/55 text-slate-700 shadow-[0_12px_28px_rgba(31,41,55,.10)] backdrop-blur-xl transition hover:scale-105 dark:border-white/15 dark:bg-slate-950/55 dark:text-slate-200 md:hidden"
+            aria-label={mobileMenuOpen ? "关闭菜单" : "打开菜单"}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="mx-auto max-w-7xl px-4 pb-4 md:hidden"
+            >
+              <div className="rounded-[1.5rem] border border-white/55 bg-white/60 p-2 shadow-[0_18px_50px_rgba(31,41,55,.10)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/60">
+                <nav className="grid gap-1">
+                  {nav.map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => openPage(key)}
+                      className={`flex items-center justify-between rounded-[1.1rem] px-4 py-3 text-left transition ${typeScale.nav} ${
+                        page === key || (page === "detail" && key === "works")
+                          ? "bg-white text-slate-950 shadow-[0_12px_32px_rgba(0,0,0,.10)] dark:bg-white dark:text-slate-950"
+                          : "text-slate-500 hover:bg-white/55 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-50"
+                      }`}
+                    >
+                      {label}
+                      {page === key || (page === "detail" && key === "works") ? <Check size={15} /> : null}
+                    </button>
+                  ))}
+                </nav>
+                <div className="mt-2 border-t border-white/55 pt-2 dark:border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setIsDark((value) => !value)}
+                    className={`flex w-full items-center justify-between rounded-[1.1rem] px-4 py-3 text-slate-600 transition hover:bg-white/55 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-slate-50 ${typeScale.nav}`}
+                  >
+                    <span>{isDark ? "浅色模式" : "深色模式"}</span>
+                    {isDark ? <Sun size={17} /> : <Moon size={17} />}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-32 sm:px-5 sm:pt-28 md:px-8 md:pb-16 md:pt-32">
@@ -793,9 +868,9 @@ export default function App() {
               <section>
                 <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
                   <div>
-                    <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl">作品预览</h2>
+                    <h2 className={`mt-2 ${typeScale.sectionTitle}`}>作品预览</h2>
                   </div>
-                  <button onClick={() => openPage("works")} className="inline-flex items-center gap-2 rounded-full border border-white/60 dark:border-white/15 bg-white/45 dark:bg-slate-950/45 px-4 py-2 text-sm text-slate-500 dark:text-slate-400 backdrop-blur-xl transition hover:bg-white/70 dark:hover:bg-white/10 hover:text-slate-950 dark:hover:text-slate-50 md:flex">
+                  <button onClick={() => openPage("works")} className={`inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/45 px-4 py-2 text-slate-500 backdrop-blur-xl transition hover:bg-white/70 hover:text-slate-950 dark:border-white/15 dark:bg-slate-950/45 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-50 md:flex ${typeScale.meta}`}>
                     查看全部作品 <ArrowRight size={15} />
                   </button>
                 </div>
@@ -819,14 +894,14 @@ export default function App() {
             >
               <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
                 <div>
-                  <h1 className="text-4xl leading-none sm:text-5xl md:text-6xl">作品</h1>
-                  <p className="mt-4 max-w-2xl text-base leading-7 text-slate-500 dark:text-slate-400 md:text-lg md:leading-8">
+                  <h1 className={typeScale.pageTitle}>作品</h1>
+                  <p className={`mt-4 max-w-2xl ${typeScale.bodyLarge}`}>
                     这里汇总展示我的代表项目，包含社区产品、用户成长体系、金融投研、Design System 与运营设计。
                   </p>
                 </div>
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {works.map((work) => (
+                {displayWorks.map((work) => (
                   <WorkCard key={work.title} work={work} onClick={() => openDetail(work)} />
                 ))}
               </div>
@@ -854,12 +929,31 @@ export default function App() {
               transition={{ duration: 0.3 }}
               className="space-y-10"
             >
-              <section className="space-y-6">                <div className="space-y-6">
+              <section className="rounded-[2rem] border border-white/55 bg-white/55 p-6 shadow-[0_24px_70px_rgba(31,41,55,.10)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/55 md:p-8">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+                  <div>
+                    <p className={typeScale.eyebrowAccent}>About</p>
+                    <h1 className={`mt-3 max-w-4xl ${typeScale.sectionTitle}`}>高级体验设计师，擅长 B 端复杂系统、Design System 与 AI 产品体验</h1>
+                    <p className={`mt-4 max-w-3xl ${typeScale.bodyLarge}`}>我关注复杂业务中的清晰体验表达，能够从业务流程、角色权限、数据结构和研发协同中拆解问题，并推动方案落地到可复用的产品体验体系。</p>
+                  </div>
+                  <a
+                    href={resumePdf}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-white/60 bg-white/45 px-4 py-2.5 text-slate-600 backdrop-blur-xl transition hover:bg-white/70 hover:text-slate-950 dark:border-white/15 dark:bg-slate-950/45 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-slate-50 ${typeScale.meta}`}
+                  >
+                    <FileText size={15} /> 查看完整简历 <ExternalLink size={14} />
+                  </a>
+                </div>
+              </section>
+
+              <section className="space-y-6">
+                <div className="space-y-6">
                   <div className="rounded-[1.5rem] border border-white/60 dark:border-white/15 bg-white/50 dark:bg-slate-900/50 backdrop-blur-2xl p-6 text-slate-800 dark:text-slate-200 shadow-[0_24px_70px_rgba(31,41,55,.10)] md:p-8">
-                    <p className="text-2xl">个人优势</p>
+                    <p className={typeScale.itemTitle}>个人优势</p>
                     <div className="mt-5 grid gap-[16px]">
                       {strengths.map((item) => (
-                        <div key={item} className="flex gap-3 text-base leading-7">
+                        <div key={item} className={`flex gap-3 ${typeScale.bodyReadable}`}>
                           <span className="mt-2 size-2 shrink-0 rounded-full bg-[#5856d6]" />
                           <span>{item}</span>
                         </div>
@@ -869,11 +963,55 @@ export default function App() {
                   <div className="grid gap-4 sm:grid-cols-2">
                     {abilities.map(([title, text]) => (
                       <article key={title} className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl p-5 transition hover:border-white/80 dark:border-white/25 hover:shadow-[0_0_32px_rgba(139,92,246,.16)]">
-                        <h2 className="text-2xl">{title}</h2>
-                        <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{text}</p>
+                        <h2 className={typeScale.itemTitle}>{title}</h2>
+                        <p className={`mt-3 ${typeScale.bodyReadableMuted}`}>{text}</p>
                       </article>
                     ))}
                   </div>
+                </div>
+              </section>
+
+              <section>
+                <p className={typeScale.eyebrow}>工作经历</p>
+                <h2 className={`mt-2 ${typeScale.sectionTitle}`}>从复杂业务到增长体验</h2>
+                <div className="mt-6 space-y-4">
+                  {experience.map((job) => (
+                    <article key={`${job.company}-${job.time}`} className="grid gap-5 rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl p-5 md:grid-cols-[210px_minmax(0,1fr)] md:p-7">
+                      <div>
+                        <p className={typeScale.eyebrowAccent}>{job.time}</p>
+                        <p className={`mt-3 ${typeScale.body}`}>{job.company}</p>
+                      </div>
+                      <div>
+                        <h3 className={typeScale.itemTitle}>{job.role}</h3>
+                        <p className={`mt-3 ${typeScale.bodyReadableMuted}`}>{job.summary}</p>
+                        {job.results.length > 0 && (
+                          <ul className="mt-5 grid gap-2">
+                            {job.results.map((result) => (
+                              <li key={result} className={`flex gap-3 rounded-[1rem] border border-white/50 bg-white/45 px-4 py-3 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 ${typeScale.body}`}>
+                                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                                <span>{result}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section className="grid gap-4 md:grid-cols-3">
+                <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl/60 p-6">
+                  <p className={typeScale.eyebrow}>专业技能</p>
+                  <p className={`mt-4 ${typeScale.bodyReadableMuted}`}>Figma、MasterGo、Protopie、AE、Photoshop、Illustrator；掌握 HTML / CSS 基础，熟悉设计走查、研发适配、标注交付与全流程协同。</p>
+                </div>
+                <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl/60 p-6">
+                  <p className={typeScale.eyebrow}>教育背景</p>
+                  <p className={`mt-4 ${typeScale.bodyReadableMuted}`}>武汉纺织大学 · 艺术设计 · 本科。</p>
+                </div>
+                <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl/60 p-6">
+                  <p className={typeScale.eyebrow}>荣誉奖项</p>
+                  <p className={`mt-4 ${typeScale.bodyReadableMuted}`}>知群中国产品设计大赛 · 青桔单车用户成长体系大赛 · 专业组优秀方案奖。担任「青桔成长体系设计优化方案」设计组长。</p>
                 </div>
               </section>
 
@@ -886,46 +1024,6 @@ export default function App() {
                   className="w-full object-contain"
                   style={{ aspectRatio: "auto 16 / 9" }}
                 />
-              </section>
-
-              <section>
-                <p className="font-mono text-xs uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">工作经历</p>
-                <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl">从复杂业务到增长体验</h2>
-                <div className="mt-6 space-y-4">
-                  {experience.map((job) => (
-                    <article key={`${job.company}-${job.time}`} className="grid gap-5 rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl p-5 md:grid-cols-[210px_minmax(0,1fr)] md:p-7">
-                      <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.16em] text-[#5856d6]">{job.time}</p>
-                        <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{job.company}</p>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl leading-tight">{job.role}</h3>
-                        <p className="mt-3 leading-7 text-slate-500 dark:text-slate-400">{job.summary}</p>
-                        {job.results.length > 0 && (
-                          <ul className="mt-5 grid gap-2">
-                            {job.results.map((result) => (
-                              <li key={result} className="flex gap-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                                <span className="mt-2 h-px w-5 shrink-0 bg-primary" />
-                                <span>{result}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-
-              <section className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl/60 p-6">
-                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">专业技能</p>
-                  <p className="mt-4 leading-7 text-slate-500 dark:text-slate-400">Figma、MasterGo、Protopie、AE、Photoshop、Illustrator；掌握 HTML / CSS 基础，熟悉设计走查、研发适配、标注交付与全流程协同。</p>
-                </div>
-                <div className="rounded-[2rem] border border-white/55 dark:border-white/10 bg-white/55 dark:bg-slate-950/55 backdrop-blur-2xl/60 p-6">
-                  <p className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">荣誉奖项</p>
-                  <p className="mt-4 leading-7 text-slate-500 dark:text-slate-400">知群中国产品设计大赛 · 青桔单车用户成长体系大赛 · 专业组优秀方案奖。担任「青桔成长体系设计优化方案」设计组长。</p>
-                </div>
               </section>
             </motion.section>
           )}

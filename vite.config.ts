@@ -17,6 +17,7 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  base: process.env.GITHUB_PAGES === 'true' ? '/DesignerPortfolioWebsite/' : '/',
   server: {
     watch: {
       ignored: ['**/src/imports/**/*.{png,jpg,jpeg,webp}'],

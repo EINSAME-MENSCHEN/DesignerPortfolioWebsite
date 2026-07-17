@@ -5,6 +5,7 @@ import { join } from "node:path";
 const root = process.cwd();
 const dist = join(root, "dist");
 const serverDir = join(dist, "server");
+const archiveServerDir = join(dist, "dist", "server");
 const openaiDir = join(dist, ".openai");
 
 if (!existsSync(join(dist, "index.html"))) {
@@ -12,12 +13,11 @@ if (!existsSync(join(dist, "index.html"))) {
 }
 
 await mkdir(serverDir, { recursive: true });
+await mkdir(archiveServerDir, { recursive: true });
 await mkdir(openaiDir, { recursive: true });
 await copyFile(join(root, ".openai", "hosting.json"), join(openaiDir, "hosting.json"));
 
-await writeFile(
-  join(serverDir, "index.js"),
-  `export default {
+const workerEntrypoint = `export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const response = await env.ASSETS.fetch(request);
@@ -29,5 +29,7 @@ await writeFile(
     return env.ASSETS.fetch(new Request(new URL("/index.html", url), request));
   },
 };
-`,
-);
+`;
+
+await writeFile(join(serverDir, "index.js"), workerEntrypoint);
+await writeFile(join(archiveServerDir, "index.js"), workerEntrypoint);
